@@ -1,10 +1,35 @@
 # 本分播客库 · 策展名单（一行一个：分类 | 节目名（备用，正式名以 feed 为准） | RSS 地址）
 # 改名单只改这个文件；collect.py 每日两轮把各 feed 消化成 shows.json（节目+最新30集）
+# 入选标准（2026-10-24 定）：内容扎实、不喊单不贩卖焦虑；源可直连、集数/时长/封面齐全；近 45 天内有更新（个别慢工节目放宽到 100 天并在复盘时标注）
+# 候补（停更超 100 天或源失效，恢复更新后再议）：一天世界、得意忘形、蜜獾吃书、跳岛FM
 财经 | 知行小酒馆 | https://feed.xyzfm.space/j8yp8gxkmgqr
+财经 | 无人知晓 | https://feed.xyzfm.space/ypn9dydpbxpc
 财经 | 商业就是这样 | http://www.ximalaya.com/album/46587439.xml
+财经 | 起朱楼宴宾客 | https://feed.xyzfm.space/ahng8d9qlywl
 财经 | 声动早咖啡 | https://www.ximalaya.com/album/51076156.xml
+财经 | 面基 | https://feed.xyzfm.space/6hpdgggtxpxb
+财经 | 晚点聊 LateTalk | https://feeds.fireside.fm/latetalk/rss
+财经 | 创业内幕 | http://www.ximalaya.com/album/20119986.xml
 财经 | Planet Money | https://feeds.npr.org/510289/podcast.xml
 财经 | Freakonomics Radio | https://feeds.simplecast.com/Y8lFbOT4
+财经 | Masters in Business | https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/4e4cd910-40a1-4619-a5f3-ae2b0012ffff/5873a3cb-298f-40bc-b71f-ae2b0013000d/podcast.rss
+财经 | Invest Like the Best | https://feeds.megaphone.fm/CLS2859450455
 人文 | 忽左忽右 | https://feed.xyzfm.space/cv4bkgpuglwp
 人文 | 文化有限 | https://s1.proxy.wavpub.com/weknownothing.xml
+人文 | 随机波动 | https://feeds.fireside.fm/stovol/rss
 人文 | 故事FM | https://feeds.storyfm.cn/storyfm.xml
+人文 | 不合时宜 | https://feed.xyzfm.space/ww7cqnybekty
+人文 | 不止读书 | http://www.ximalaya.com/album/47548262.xml
+历史 | 东腔西调 | https://www.ximalaya.com/album/41153937.xml
+历史 | The Rest Is History | https://feeds.megaphone.fm/GLT4787413333
+历史 | Hardcore History | https://feeds.feedburner.com/dancarlin/history?format=xml
+科技 | 硅谷101 | https://feeds.fireside.fm/sv101/rss
+科技 | 声东击西 | https://feeds.fireside.fm/shengdongjixi/rss
+科技 | 科技早知道 | https://feeds.fireside.fm/guiguzaozhidao/rss
+科技 | 疯投圈 | https://crazy.capital/feed
+通识 | 科学有故事 | http://www.ximalaya.com/album/4156778.xml
+通识 | Radiolab | https://feeds.simplecast.com/EmVW7VGp
+通识 | 99% Invisible | https://feeds.simplecast.com/BqbsxVfO
+生活 | 日谈公园 | http://www.ximalaya.com/album/5574153.xml
+生活 | 大内密谈 | http://rss.lizhi.fm/rss/14275.xml
+生活 | 基本无害 | https://feed.xyzfm.space/dy3ktvw6exc9
