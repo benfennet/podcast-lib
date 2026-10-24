@@ -1,0 +1,10 @@
+# 本分播客库 · 策展名单（一行一个：分类 | 节目名（备用，正式名以 feed 为准） | RSS 地址）
+# 改名单只改这个文件；collect.py 每日两轮把各 feed 消化成 shows.json（节目+最新30集）
+财经 | 知行小酒馆 | https://feed.xyzfm.space/j8yp8gxkmgqr
+财经 | 商业就是这样 | http://www.ximalaya.com/album/46587439.xml
+财经 | 声动早咖啡 | https://www.ximalaya.com/album/51076156.xml
+财经 | Planet Money | https://feeds.npr.org/510289/podcast.xml
+财经 | Freakonomics Radio | https://feeds.simplecast.com/Y8lFbOT4
+人文 | 忽左忽右 | https://feed.xyzfm.space/cv4bkgpuglwp
+人文 | 文化有限 | https://s1.proxy.wavpub.com/weknownothing.xml
+人文 | 故事FM | https://feeds.storyfm.cn/storyfm.xml
