@@ -2,9 +2,12 @@
 """本分播客库：把策展名单（shows.txt）里的 RSS 逐个消化成一份小名单 out/shows.json。
 
 设计（与 radio-verified 同一套纪律）：
-- 每台只留最新 EP_KEEP 集的元数据（标题/日期/时长/音频地址/简介摘要），
+- 主库 shows.json 每节目只留最新 EP_KEEP 集的元数据（标题/日期/时长/音频地址/简介摘要），
   原始 feed 动辄几 MB，消化后整库只有几百 KB，播客机打开秒读。
-- 某个 feed 本轮拉不到/解析失败：保留上一轮的旧数据（标记 stale），绝不用空覆盖好数据。
+- 完整节目单另存 out/archive/<节目id>.json（一节目一份、全量集数），播客机在用户
+  点「完整节目单」时按需取，不拖累日常打开速度（2026-10-24 用户要求可从第 1 集听起）。
+- 某个 feed 本轮拉不到/解析失败：保留上一轮的旧数据（标记 stale），绝不用空覆盖好数据；
+  上一轮数据从已发布的线上 shows.json 回读（CI 里工作区是全新的，本地 out/ 靠不住）。
 - 纯静态发布到 GitHub Pages：https://benfennet.github.io/podcast-lib/shows.json
 """
 import hashlib
@@ -93,8 +96,6 @@ def digest(feed_url: str) -> dict:
             "audio": audio,
             "desc": desc,
         })
-        if len(eps) >= EP_KEEP:
-            break
 
     if not eps:
         raise ValueError("no episodes with audio")
@@ -103,23 +104,49 @@ def digest(feed_url: str) -> dict:
         "author": strip_tags(txt(ch, "itunes:author") or txt(ch, "managingEditor")),
         "desc": strip_tags(txt(ch, "description"))[:220],
         "img": img,
-        "eps": eps,
+        "eps": eps[:EP_KEEP],   # 主库只放最新 EP_KEEP 集
+        "all_eps": eps,          # 完整档案用全量
+        "total": len(eps),
     }
+
+
+LIB_BASE = "https://benfennet.github.io/podcast-lib"
+
+
+def load_prev(out_path):
+    """上一轮数据：优先本地 out/，没有就回读线上已发布版（CI 工作区全新，只能靠线上）。"""
+    try:
+        if os.path.exists(out_path):
+            data = json.load(open(out_path))
+        else:
+            r = requests.get(LIB_BASE + "/shows.json", headers=UA, timeout=30)
+            r.raise_for_status()
+            data = r.json()
+        return {s["feed"]: s for s in data.get("shows", [])}
+    except Exception:
+        return {}
+
+
+def carry_archive(arch_dir, sid):
+    """本轮失败的节目：把上一轮的完整档案从线上原样接回来，别让它缺席一轮。"""
+    try:
+        r = requests.get(f"{LIB_BASE}/archive/{sid}.json", headers=UA, timeout=30)
+        r.raise_for_status()
+        with open(os.path.join(arch_dir, sid + ".json"), "w", encoding="utf-8") as f:
+            f.write(r.text)
+        return True
+    except Exception:
+        return False
 
 
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     out_dir = os.path.join(here, "out")
-    os.makedirs(out_dir, exist_ok=True)
+    arch_dir = os.path.join(out_dir, "archive")
+    os.makedirs(arch_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "shows.json")
 
-    prev = {}
-    if os.path.exists(out_path):
-        try:
-            for s in json.load(open(out_path)).get("shows", []):
-                prev[s["feed"]] = s
-        except Exception:
-            prev = {}
+    prev = load_prev(out_path)
 
     shows = []
     for line in open(os.path.join(here, "shows.txt"), encoding="utf-8"):
