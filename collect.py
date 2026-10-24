@@ -55,7 +55,9 @@ def digest(feed_url: str) -> dict:
         raise ValueError("no channel")
 
     def txt(el, path):
-        n = el.find(path) if el is not None else None
+        # 必须带 NS 找：itunes:duration/itunes:author 这类带前缀的标签，不带命名空间永远找不到
+        #（2026-10-24 实锤：八个节目时长全 0 就是它）。无前缀路径带 NS 找也不受影响。
+        n = el.find(path, NS) if el is not None else None
         return (n.text or "").strip() if n is not None and n.text else ""
 
     img = ""
