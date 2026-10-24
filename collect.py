@@ -161,15 +161,20 @@ def main():
         sid = hashlib.md5(feed.encode()).hexdigest()[:10]
         try:
             d = digest(feed)
+            all_eps = d.pop("all_eps")
+            with open(os.path.join(arch_dir, sid + ".json"), "w", encoding="utf-8") as f:
+                json.dump({"v": 1, "id": sid, "title": d["title"], "total": d["total"], "eps": all_eps},
+                          f, ensure_ascii=False, separators=(",", ":"))
             shows.append({"id": sid, "feed": feed, "cat": cat, **d,
                           "n_eps": len(d["eps"]), "stale": False})
-            print(f"OK   {d['title']}（{cat}，{len(d['eps'])} 集）")
+            print(f"OK   {d['title']}（{cat}，主库 {len(d['eps'])} 集 / 档案共 {d['total']} 集）")
         except Exception as e:
             old = prev.get(feed)
             if old:
                 old = dict(old)
                 old["stale"] = True
                 shows.append(old)
+                carry_archive(arch_dir, sid)
                 print(f"STALE {old.get('title')}（本轮失败，保留旧数据：{e}）")
             else:
                 print(f"FAIL {feed}（无旧数据可用：{e}）", file=sys.stderr)
@@ -191,7 +196,7 @@ def main():
 <html lang="zh-CN"><head><meta charset="utf-8"><title>本分播客库</title></head>
 <body style="font-family:serif;max-width:640px;margin:40px auto;padding:0 16px;line-height:1.7">
 <h1>本分播客库</h1>
-<p>策展播客名单，每日两次消化各家订阅：验活、只留最新 {EP_KEEP} 集，压成一份小名单给播客机读。</p>
+<p>策展播客名单，每日两次消化各家订阅：验活、主库只留最新 {EP_KEEP} 集，压成一份小名单给播客机读；每个节目的全部集数另存完整档案（archive/节目id.json），点开节目时按需取。</p>
 <p>数据地址（纯静态 JSON，欢迎取用）：<a href="./shows.json">shows.json</a>（{len(shows)} 个节目，{size // 1024} KB）</p>
 <ul>{rows}</ul>
 <p style="color:#888">节目版权归各节目方所有；本库只整理其公开订阅地址与元数据。</p>
