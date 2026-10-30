@@ -20,7 +20,7 @@
 人文 | 故事FM | https://feeds.storyfm.cn/storyfm.xml
 人文 | 不合时宜 | https://feed.xyzfm.space/ww7cqnybekty
 人文 | 不止读书 | http://www.ximalaya.com/album/47548262.xml
-人文 | 经典也青春 | http://moo.im/ohclassicsfeed
+人文 | 经典也青春 | https://feeds.soundon.fm/podcasts/f91638a2-712f-4ee6-b560-3800d8919979.xml
 人文 | 读书吧！少女 | http://www.ximalaya.com/album/45472033.xml
 人文 | 荒野文化 | https://feed.xyzfm.space/8t9tjtmrk446
 历史 | 东腔西调 | https://www.ximalaya.com/album/41153937.xml
